@@ -1,0 +1,12 @@
+{# ... #}
+{% block title %}Vinyl n°{{ vinyl.id }}{% endblock %}
+
+{% block body %}
+    <h1>{{ vinyl.title }}</h1>
+    <h2>{{ vinyl.artist }}</h2>
+
+
+    <a href="{{ path('vinyl_list') }}">back to list</a>
+
+{% endblock %} {# body #}
+{# ... #}

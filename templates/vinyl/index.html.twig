@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vinyles{% endblock %}
+
+{% block body %}
+    <h1>Liste des vinyles de tous les membres</h1>
+    <ul>
+        <table class="table">
+            {% for vinyl in vinyls %}
+                <tr>
+                    {%  dump vinyl %}
+                    <th>{{ vinyl.title }}</th>
+                    <th>{{ vinyl.artist }}</th>
+                    <th>{{ vinyl.library.name }}</th>
+                    <th><a href="{{ path('vinyl_show', {'id' : vinyl.id}) }}">Lien vers le vinyl</a></th>
+                </tr>
+            {% endfor %}
+        </table>
+    </ul>
+
+{% endblock %} {# body #}

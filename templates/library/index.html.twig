@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}librairies{% endblock %}
+
+{% block body %}
+    <h1>library index</h1>
+    <ul>
+        <table class="table">
+            {% for library in libraries %}
+                <tr>
+                    {%  dump library %}
+                    <th>{{ library.name }}</th>
+                    <th><a href="{{ path('library_show', {'id' : library.id}) }}">Lien vers la library</a></th>
+                </tr>
+            {% endfor %}
+        </table>
+    </ul>
+
+{% endblock %} {# body #}

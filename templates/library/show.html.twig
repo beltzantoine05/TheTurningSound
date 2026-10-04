@@ -1,0 +1,26 @@
+{# ... #}
+{% block title %}Librairie n°{{ library.id }}{% endblock %}
+
+{% block body %}
+    <h1>{{ library.name }}</h1>
+
+    {% dump library %}
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <h2> Vinyles de la librairie </h2>
+            {% for vinyl in vinyls %}
+                <tr>
+                    {% dump vinyl %}
+                    <th>Title : {{ vinyl.title }}</th>
+                    <th>Artist :{{ vinyl.artist }}</th>
+                    <th><a href="{{ path('vinyl_show', {'id' : vinyl.id}) }}">Lien vers le vinyl</a></th>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('library_list') }}">back to list</a>
+
+{% endblock %} {# body #}
+{# ... #}
