@@ -190,15 +190,14 @@ class AppFixtures extends Fixture
         $manager->flush();
 
         foreach (self::bacGenerator() as [$ownerEmail, $library_ref, $name, $public, $description, $vinylTitles]) {
-            $library = $this->getReference($library_ref, Library::class);
             $owner = $this->getReference($ownerEmail, Member::class);
 
             $bac = new Bac();
             $bac->setName($name);
             $bac->setPublic($public);
             $bac->setDescription($description);
-            $bac->setOwner($owner);
-            $library->addBac($bac);
+            // Member::addBac() appelle setOwner() : le propriétaire suffit
+            $owner->addBac($bac);
 
             foreach ($vinylTitles as $title) {
                 $bac->addVinyl($vinyls[$library_ref][$title]);

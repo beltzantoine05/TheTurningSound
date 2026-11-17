@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <th scope="row">Librairie</th>
-                <td><a href="{{ path('library_show', {'id': bac.library.id}) }}">{{ bac.library.name }}</a></td>
+                <td><a href="{{ path('library_show', {'id': bac.owner.library.id}) }}">{{ bac.owner.library.name }}</a></td>
             </tr>
             <tr>
                 <th scope="row">Visibilité</th>

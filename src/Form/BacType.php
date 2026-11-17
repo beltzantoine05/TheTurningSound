@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Bac;
-use App\Entity\Library;
 use App\Entity\Member;
 use App\Entity\Vinyl;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,10 +18,6 @@ class BacType extends AbstractType
             ->add('public')
             ->add('name')
             ->add('description')
-            ->add('library', EntityType::class, [
-                'class' => Library::class,
-                'choice_label' => 'id',
-            ])
             ->add('vinyls', EntityType::class, [
                 'class' => Vinyl::class,
                 'choice_label' => 'id',

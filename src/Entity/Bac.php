@@ -24,10 +24,6 @@ class Bac
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'bacs')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Library $library = null;
-
     /**
      * @var Collection<int, Vinyl>
      */
@@ -80,18 +76,6 @@ class Bac
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getLibrary(): ?Library
-    {
-        return $this->library;
-    }
-
-    public function setLibrary(?Library $library): static
-    {
-        $this->library = $library;
 
         return $this;
     }
