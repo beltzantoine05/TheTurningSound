@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Bac;
+use App\Entity\Member;
 use App\Entity\Vinyl;
 use App\Form\BacType;
 use App\Repository\BacRepository;
@@ -21,14 +22,15 @@ final class BacController extends AbstractController
     public function index(BacRepository $bacRepository): Response
     {
         return $this->render('bac/index.html.twig', [
-            'bacs' => $bacRepository->findAll(),
+            'bacs' => $bacRepository->findBy(['public' => true]),
         ]);
     }
 
-    #[Route('/new', name: 'app_bac_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_bac_new', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, Member $member): Response
     {
         $bac = new Bac();
+        $bac->setOwner($member);
         $form = $this->createForm(BacType::class, $bac);
         $form->handleRequest($request);
 
@@ -36,7 +38,7 @@ final class BacController extends AbstractController
             $entityManager->persist($bac);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_bac_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('member_show', ['username' => $member->getUsername()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('bac/new.html.twig', [
@@ -62,7 +64,7 @@ final class BacController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_bac_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('member_show', ['username' => $bac->getOwner()->getUsername()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('bac/edit.html.twig', [
@@ -79,7 +81,7 @@ final class BacController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_bac_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('member_show', ['username' => $bac->getOwner()->getUsername()], Response::HTTP_SEE_OTHER);
     }
 
 

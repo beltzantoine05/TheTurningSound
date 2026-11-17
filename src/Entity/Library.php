@@ -107,7 +107,7 @@ class Library implements \Stringable
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->name ?? "No name library";
     }
 
 

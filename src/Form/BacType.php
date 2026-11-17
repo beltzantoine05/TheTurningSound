@@ -22,10 +22,12 @@ class BacType extends AbstractType
                 'class' => Vinyl::class,
                 'choice_label' => 'id',
                 'multiple' => true,
+                'required' => false,
             ])
             ->add('owner', EntityType::class, [
                 'class' => Member::class,
-                'choice_label' => 'id',
+                'disabled' => true,
+                'choice_label' => 'username',
             ])
         ;
     }

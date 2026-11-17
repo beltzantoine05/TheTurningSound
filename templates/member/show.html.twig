@@ -23,9 +23,37 @@
             <th>Librairie</th>
             <td><a href="{{ path('library_show', {'id' : member.library.id}) }}">{{ member.library.name }}</a></td>
         </tr>
+        <tr>
+            <th>Bacs</th>
+            <td>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for bac in bacs %}
+                        <tr>
+                            {% dump bac %}
+                                <td>{{ bac.name }}</td>
+                                <td>{{ bac.description }}</td>
+                                <td>
+                                    <a href="{{ path('app_bac_show', {'id': bac.id}) }}">show</a>
+                                    <a href="{{ path('app_bac_edit', {'id': bac.id}) }}">edit</a>
+                                </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
         </tbody>
     </table>
 
+    <a href="{{ path('app_bac_new', {'id': member.id}) }}"> Ajouter un nouveau bac</a>
     <a href="{{ path('member_list') }}">Retour à la liste</a>
 
 {% endblock %} {# body #}
