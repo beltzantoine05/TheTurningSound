@@ -18,3 +18,14 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> PhpStorm / JetBrains ###
+/.idea/
+*.iml
+###< PhpStorm / JetBrains ###
+
+###> Eclipse ###
+/.buildpath
+/.project
+/.settings/
+###< Eclipse ###
