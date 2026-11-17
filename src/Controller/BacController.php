@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Bac;
+use App\Entity\Vinyl;
 use App\Form\BacType;
 use App\Repository\BacRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,5 +79,28 @@ final class BacController extends AbstractController
         }
 
         return $this->redirectToRoute('app_bac_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * Show a vinyl
+     *
+     * @param Integer $id (note that the id must be an integer)
+     */
+    #[Route('/vinyl/{id}', name: 'app_bac_vinyl_show', requirements: ['id' => '\d+'])]
+    public function vinylShow(ManagerRegistry $doctrine, $id) : Response
+    {
+
+        // Chargement d'un vinyl par son identifiant
+        $VinylRepo = $doctrine->getRepository(Vinyl::class);
+        $vinyl = $VinylRepo->find($id);
+
+        // Si l'identifiant est erroné, on s'arrête brutalement : 404
+        if (!$vinyl) {
+            throw $this->createNotFoundException('The vinyl you are searching for does not exist');
+        }
+
+        return $this->render('bac/vinylshow.html.twig', [
+            'vinyl' => $vinyl,
+        ]);
     }
 }

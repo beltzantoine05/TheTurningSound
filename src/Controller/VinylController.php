@@ -3,44 +3,79 @@
 namespace App\Controller;
 
 use App\Entity\Vinyl;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Form\VinylType;
+use App\Repository\VinylRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/vinyl')]
 final class VinylController extends AbstractController
 {
-    #[Route('/vinyl_list', name: 'vinyl_list')]
-    public function listLibraries(ManagerRegistry $doctrine): Response
+    #[Route(name: 'app_vinyl_index', methods: ['GET'])]
+    public function index(VinylRepository $vinylRepository): Response
     {
-        $entityManager = $doctrine->getManager();
-        $vinyls = $entityManager->getRepository(Vinyl::class)->findAll();
-        dump($vinyls);
-
         return $this->render('vinyl/index.html.twig', [
-            'vinyls' => $vinyls,
+            'vinyls' => $vinylRepository->findAll(),
         ]);
     }
-    /**
-     * Show a vinyl
-     *
-     * @param Integer $id (note that the id must be an integer)
-     */
-    #[Route('/vinyl/{id}', name: 'vinyl_show', requirements: ['id' => '\d+'])]
-    public function show(ManagerRegistry $doctrine, $id) : Response
+
+    #[Route('/new', name: 'app_vinyl_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $vinyl = new Vinyl();
+        $form = $this->createForm(VinylType::class, $vinyl);
+        $form->handleRequest($request);
 
-        // Chargement d'un vinyl par son identifiant
-        $VinylRepo = $doctrine->getRepository(Vinyl::class);
-        $vinyl = $VinylRepo->find($id);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($vinyl);
+            $entityManager->flush();
 
-        // Si l'identifiant est erroné, on s'arrête brutalement : 404
-        if (!$vinyl) {
-            throw $this->createNotFoundException('The vinyl you are searching for does not exist');
+            return $this->redirectToRoute('app_vinyl_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        return $this->render('vinyl/new.html.twig', [
+            'vinyl' => $vinyl,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_vinyl_show', methods: ['GET'])]
+    public function show(Vinyl $vinyl): Response
+    {
         return $this->render('vinyl/show.html.twig', [
             'vinyl' => $vinyl,
         ]);
+    }
+
+    #[Route('/{id}/edit', name: 'app_vinyl_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Vinyl $vinyl, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(VinylType::class, $vinyl);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_vinyl_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('vinyl/edit.html.twig', [
+            'vinyl' => $vinyl,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_vinyl_delete', methods: ['POST'])]
+    public function delete(Request $request, Vinyl $vinyl, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$vinyl->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($vinyl);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_vinyl_index', [], Response::HTTP_SEE_OTHER);
     }
 }

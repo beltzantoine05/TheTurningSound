@@ -40,7 +40,7 @@
                 {% dump vinyl %}
                 <td>{{ vinyl.title }}</td>
                 <td>{{ vinyl.artist ?? '-' }}</td>
-                <td><a href="{{ path('vinyl_show', {'id' : vinyl.id}) }}">Voir le vinyle</a></td>
+                <td><a href="{{ path('app_vinyl_show', {'id' : vinyl.id}) }}">Voir le vinyle</a></td>
             </tr>
         {% else %}
             <tr>

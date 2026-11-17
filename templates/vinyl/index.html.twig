@@ -1,21 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vinyles{% endblock %}
+{% block title %}Vinyl index{% endblock %}
 
 {% block body %}
-    <h1>Liste des vinyles de tous les membres</h1>
-    <ul>
-        <table class="table">
-            {% for vinyl in vinyls %}
-                <tr>
-                    {%  dump vinyl %}
-                    <th>{{ vinyl.title }}</th>
-                    <th>{{ vinyl.artist }}</th>
-                    <th>{{ vinyl.library.name }}</th>
-                    <th><a href="{{ path('vinyl_show', {'id' : vinyl.id}) }}">Lien vers le vinyl</a></th>
-                </tr>
-            {% endfor %}
-        </table>
-    </ul>
+    <h1>Vinyl index</h1>
 
-{% endblock %} {# body #}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Artist</th>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Type</th>
+                <th>Label</th>
+                <th>ProdCountry</th>
+                <th>ProdYear</th>
+                <th>Signed</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vinyl in vinyls %}
+            <tr>
+                <td>{{ vinyl.id }}</td>
+                <td>{{ vinyl.artist }}</td>
+                <td>{{ vinyl.title }}</td>
+                <td>{{ vinyl.year }}</td>
+                <td>{{ vinyl.type }}</td>
+                <td>{{ vinyl.label }}</td>
+                <td>{{ vinyl.prodCountry }}</td>
+                <td>{{ vinyl.prodYear }}</td>
+                <td>{{ vinyl.signed ? 'Yes' : 'No' }}</td>
+                <td>{{ vinyl.description }}</td>
+                <td>
+                    <a href="{{ path('app_vinyl_show', {'id': vinyl.id}) }}">show</a>
+                    <a href="{{ path('app_vinyl_edit', {'id': vinyl.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_vinyl_new') }}">Create new</a>
+{% endblock %}

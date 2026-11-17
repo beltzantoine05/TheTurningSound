@@ -10,5 +10,5 @@ bootstrap_menu:
                     route: 'member_list'
                 vinyls:
                     label: 'Vinyls'
-                    route: 'vinyl_list'
+                    route: 'app_vinyl_index'
 
