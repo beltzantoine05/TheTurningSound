@@ -50,9 +50,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_vinyl_index') }}">back to list</a>
-
     <a href="{{ path('app_vinyl_edit', {'id': vinyl.id}) }}">edit</a>
+
+    <a href="{{ path('library_show' ,{'id': vinyl.library.id}) }}">Retour à la librarie</a>
 
     {{ include('vinyl/_delete_form.html.twig') }}
 {% endblock %}

@@ -7,5 +7,5 @@
 
     {{ include('vinyl/_form.html.twig') }}
 
-    <a href="{{ path('app_vinyl_index') }}">back to list</a>
+    <a href="{{ path('library_show' ,{'id': vinyl.library.id}) }}">Retour à la librarie</a>
 {% endblock %}

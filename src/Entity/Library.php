@@ -107,16 +107,7 @@ class Library implements \Stringable
 
     public function __toString(): string
     {
-        $vinylsList = implode(', ', $this->vinyls->map(
-            fn(Vinyl $vinyl) => (string) $vinyl
-        )->toArray());
-
-        return sprintf(
-            '<dt>%s</dt><dt>%s</dt><dt>%s</dt>',
-            $this->name ?? '',
-            $this->member ? (string) $this->member : '',
-            $vinylsList !== '' ? $vinylsList : 'Aucun vinyle'
-        );
+        return $this->name;
     }
 
 

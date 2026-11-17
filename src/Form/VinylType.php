@@ -26,12 +26,13 @@ class VinylType extends AbstractType
             ->add('description')
             ->add('library', EntityType::class, [
                 'class' => Library::class,
-                'choice_label' => 'id',
+                'disabled' => true,
             ])
             ->add('bacs', EntityType::class, [
                 'class' => Bac::class,
                 'choice_label' => 'id',
                 'multiple' => true,
+                'required' => false,
             ])
         ;
     }

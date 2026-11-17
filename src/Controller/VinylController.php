@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Library;
 use App\Entity\Vinyl;
 use App\Form\VinylType;
 use App\Repository\VinylRepository;
@@ -22,10 +23,11 @@ final class VinylController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_vinyl_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_vinyl_new', requirements:  ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, Library $library): Response
     {
         $vinyl = new Vinyl();
+        $vinyl->setLibrary($library);
         $form = $this->createForm(VinylType::class, $vinyl);
         $form->handleRequest($request);
 
@@ -33,7 +35,7 @@ final class VinylController extends AbstractController
             $entityManager->persist($vinyl);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_vinyl_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('library_show', ['id' => $library->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('vinyl/new.html.twig', [
@@ -59,7 +61,7 @@ final class VinylController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_vinyl_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('library_show', ['id' => $vinyl->getLibrary()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('vinyl/edit.html.twig', [
@@ -76,6 +78,6 @@ final class VinylController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_vinyl_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('library_show', ['id' => $vinyl->getLibrary()->getId()], Response::HTTP_SEE_OTHER);
     }
 }
