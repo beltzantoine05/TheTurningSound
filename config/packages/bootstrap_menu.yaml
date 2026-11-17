@@ -1,0 +1,11 @@
+bootstrap_menu:
+    menus:
+        main:
+            items:
+                libraries:
+                    label: 'Libraries'
+                    route: 'library_list'
+                vinyls:
+                    label: 'Vinyls'
+                    route: 'vinyl_list'
+
