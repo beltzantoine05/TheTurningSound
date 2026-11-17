@@ -8,6 +8,7 @@ use App\Form\BacType;
 use App\Repository\BacRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -81,25 +82,26 @@ final class BacController extends AbstractController
         return $this->redirectToRoute('app_bac_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * Show a vinyl
-     *
-     * @param Integer $id (note that the id must be an integer)
-     */
-    #[Route('/vinyl/{id}', name: 'app_bac_vinyl_show', requirements: ['id' => '\d+'])]
-    public function vinylShow(ManagerRegistry $doctrine, $id) : Response
+
+    #[Route('/{bac_id}/vinyl/{vinyl_id}', name: 'app_bac_vinyl_show', requirements: ['bac_id' => '\d+', 'vinyl_id' => '\d+'], methods: ['GET'])]
+    public function vinylShow(
+        #[MapEntity(id: 'bac_id')]
+        Bac $bac,
+        #[MapEntity(id: 'vinyl_id')]
+        Vinyl $vinyl,
+    ) : Response
     {
 
-        // Chargement d'un vinyl par son identifiant
-        $VinylRepo = $doctrine->getRepository(Vinyl::class);
-        $vinyl = $VinylRepo->find($id);
+        if(! $bac->getVinyls()->contains($vinyl)) {
+            throw $this->createNotFoundException("Couldn't find such a vinyl in this bac !");
+        }
 
-        // Si l'identifiant est erroné, on s'arrête brutalement : 404
-        if (!$vinyl) {
-            throw $this->createNotFoundException('The vinyl you are searching for does not exist');
+        if (! $bac->isPublic()) {
+           throw $this->createAccessDeniedException("You cannot access the requested ressource!");
         }
 
         return $this->render('bac/vinylshow.html.twig', [
+            'bac' => $bac,
             'vinyl' => $vinyl,
         ]);
     }

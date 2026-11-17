@@ -46,7 +46,7 @@
                     </td>
                     <td>{{ vinyl.artist ?? '-' }}</td>
                     <td class="text-end">
-                        <a class="btn btn-sm btn-outline-dark" href="{{ path('app_bac_vinyl_show', {'id': vinyl.id}) }}">Voir</a>
+                        <a class="btn btn-sm btn-outline-dark" href="{{ path('app_bac_vinyl_show', {'vinyl_id': vinyl.id, 'bac_id': bac.id}) }}">Voir</a>
                     </td>
                 </tr>
             {% else %}

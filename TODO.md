@@ -20,7 +20,7 @@ Nomenclature : `[inventaire]` = `Library`, `[objet]` = `Vinyl`, `[galerie]` = `B
 
 ## Jour 2 : contextualisation (~3h30)
 
-- [ ] 2.1 Étape 10.2 : route `/bac/{bac_id}/vinyl/{vinyl_id}` avec `#[MapEntity]`, 404 si le vinyle n'est pas dans le bac, 403 si bac privé (1 h)
+- [x] 2.1 Étape 10.2 : route `/bac/{bac_id}/vinyl/{vinyl_id}` avec `#[MapEntity]`, 404 si le vinyle n'est pas dans le bac, 403 si bac privé (1 h)
 - [ ] 2.2 Étape 11.2 : création d'un vinyle depuis la fiche bibliothèque (`/vinyl/new/{id}`), champ bibliothèque désactivé, redirections vers la bibliothèque (1h15)
 - [ ] 2.3 Étapes 12.1 à 12.4 : bacs sur la fiche membre, création contextualisée, redirections, `findBy(['public' => true])` dans le contrôleur (1h15)
 
