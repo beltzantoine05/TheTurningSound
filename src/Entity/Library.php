@@ -27,9 +27,16 @@ class Library implements \Stringable
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    /**
+     * @var Collection<int, Bac>
+     */
+    #[ORM\OneToMany(targetEntity: Bac::class, mappedBy: 'library', orphanRemoval: true)]
+    private Collection $bacs;
+
     public function __construct()
     {
         $this->vinyls = new ArrayCollection();
+        $this->bacs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,6 +122,36 @@ class Library implements \Stringable
             $this->member ? (string) $this->member : '',
             $vinylsList !== '' ? $vinylsList : 'Aucun vinyle'
         );
+    }
+
+    /**
+     * @return Collection<int, Bac>
+     */
+    public function getBacs(): Collection
+    {
+        return $this->bacs;
+    }
+
+    public function addBac(Bac $bac): static
+    {
+        if (!$this->bacs->contains($bac)) {
+            $this->bacs->add($bac);
+            $bac->setLibrary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBac(Bac $bac): static
+    {
+        if ($this->bacs->removeElement($bac)) {
+            // set the owning side to null (unless already changed)
+            if ($bac->getLibrary() === $this) {
+                $bac->setLibrary(null);
+            }
+        }
+
+        return $this;
     }
 
 

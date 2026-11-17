@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MemberRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -37,6 +39,17 @@ class Member implements UserInterface, PasswordAuthenticatedUserInterface, \Stri
 
     #[ORM\Column(length: 255)]
     private ?string $username = null;
+
+    /**
+     * @var Collection<int, Bac>
+     */
+    #[ORM\OneToMany(targetEntity: Bac::class, mappedBy: 'owner', orphanRemoval: true)]
+    private Collection $bacs;
+
+    public function __construct()
+    {
+        $this->bacs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -144,6 +157,36 @@ class Member implements UserInterface, PasswordAuthenticatedUserInterface, \Stri
     public function setUsername(string $username): static
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bac>
+     */
+    public function getBacs(): Collection
+    {
+        return $this->bacs;
+    }
+
+    public function addBac(Bac $bac): static
+    {
+        if (!$this->bacs->contains($bac)) {
+            $this->bacs->add($bac);
+            $bac->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBac(Bac $bac): static
+    {
+        if ($this->bacs->removeElement($bac)) {
+            // set the owning side to null (unless already changed)
+            if ($bac->getOwner() === $this) {
+                $bac->setOwner(null);
+            }
+        }
 
         return $this;
     }

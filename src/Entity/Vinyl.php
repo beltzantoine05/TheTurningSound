@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VinylRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VinylRepository::class)]
@@ -43,6 +45,17 @@ class Vinyl implements \Stringable
     #[ORM\ManyToOne(inversedBy: 'vinyls')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Library $library = null;
+
+    /**
+     * @var Collection<int, Bac>
+     */
+    #[ORM\ManyToMany(targetEntity: Bac::class, mappedBy: 'vinyls')]
+    private Collection $bacs;
+
+    public function __construct()
+    {
+        $this->bacs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -179,5 +192,32 @@ class Vinyl implements \Stringable
     public function __toString(): string
     {
         return sprintf('%s — %s', $this->title ?? '', $this->artist ?? '');
+    }
+
+    /**
+     * @return Collection<int, Bac>
+     */
+    public function getBacs(): Collection
+    {
+        return $this->bacs;
+    }
+
+    public function addBac(Bac $bac): static
+    {
+        if (!$this->bacs->contains($bac)) {
+            $this->bacs->add($bac);
+            $bac->addVinyl($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBac(Bac $bac): static
+    {
+        if ($this->bacs->removeElement($bac)) {
+            $bac->removeVinyl($this);
+        }
+
+        return $this;
     }
 }
