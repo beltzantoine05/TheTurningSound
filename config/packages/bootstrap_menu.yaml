@@ -5,6 +5,9 @@ bootstrap_menu:
                 libraries:
                     label: 'Libraries'
                     route: 'library_list'
+                members:
+                    label: 'Membres'
+                    route: 'member_list'
                 vinyls:
                     label: 'Vinyls'
                     route: 'vinyl_list'

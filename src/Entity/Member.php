@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MemberRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -37,8 +38,11 @@ class Member implements UserInterface, PasswordAuthenticatedUserInterface, \Stri
     #[ORM\JoinColumn(nullable: false)]
     private ?Library $library = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $username = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $biography = null;
 
     /**
      * @var Collection<int, Bac>
@@ -157,6 +161,18 @@ class Member implements UserInterface, PasswordAuthenticatedUserInterface, \Stri
     public function setUsername(string $username): static
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    public function getBiography(): ?string
+    {
+        return $this->biography;
+    }
+
+    public function setBiography(?string $biography): static
+    {
+        $this->biography = $biography;
 
         return $this;
     }

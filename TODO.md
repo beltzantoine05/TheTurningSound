@@ -14,8 +14,8 @@ Nomenclature : `[inventaire]` = `Library`, `[objet]` = `Vinyl`, `[galerie]` = `B
 - [x] 1.1 Commiter l'état actuel (10 min)
 - [x] 1.2 Créer `TODO.md` – étape 2.6 (10 min)
 - [x] 1.3 Choisir entre `library` et `owner` dans `Bac` (doublon, risque d'incohérence) ; si suppression : entité, migration, fixtures, `BacType`, gabarit (45 min)
-- [ ] 1.4 Retirer les `dump()` des contrôleurs et gabarits (15 min)
-- [ ] 1.5 Étape 11.1 : `MemberController` en Twig (`index` + `show`), liens membre ↔ bibliothèque ; corrige la route `app_library` inexistante (1 h)
+- [x] 1.4 Retirer les `dump()` des contrôleurs et gabarits (15 min) (ABANDONNE)
+- [x] 1.5 Étape 11.1 : `MemberController` en Twig (`index` + `show`), liens membre ↔ bibliothèque ; corrige la route `app_library` inexistante (1 h)
 - [ ] 1.6 Étape 10.1 : déplacer `VinylController::show()` dans `BacController`, supprimer `VinylController`, régénérer le CRUD Vinyl (`make:crud`), corriger les liens (1 h)
 
 ## Jour 2 : contextualisation (~3h30)

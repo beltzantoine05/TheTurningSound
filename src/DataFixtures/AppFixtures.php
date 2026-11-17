@@ -35,16 +35,16 @@ class AppFixtures extends Fixture
 
     /**
      * Generates initialization data for members + their library
-     * [email, username, password, library title, library reference]
+     * [email, username, password, library title, library reference, biography]
      */
     private static function memberGenerator()
     {
-        yield ['antoine@tsp.fr', 'tonio', 'password', "Tony's Library", self::ANTOINE_LIBRARY];
-        yield ['rod@tsp.fr', 'rod', 'password', "Rod's Library", self::ROD_LIBRARY];
-        yield ['clara@tsp.fr', 'clara', 'password', "Clara's Crates", self::CLARA_LIBRARY];
-        yield ['lucas@tsp.fr', 'lucas', 'password', "Lucas' Groove Vault", self::LUCAS_LIBRARY];
-        yield ['emma@tsp.fr', 'emma', 'password', "Emma's Record Room", self::EMMA_LIBRARY];
-        yield ['hugo@tsp.fr', 'hugo', 'password', "Hugo's Collection", self::HUGO_LIBRARY];
+        yield ['antoine@tsp.fr', 'tonio', 'password', "Tony's Library", self::ANTOINE_LIBRARY, "Tombé dans la musique avec le Thriller de mes parents. Je chine en brocante tous les week-ends, du rock des années 70 à la French Touch."];
+        yield ['rod@tsp.fr', 'rod', 'password', "Rod's Library", self::ROD_LIBRARY, "Fan inconditionnel de Britpop depuis le lycée. Mon rêve : trouver un pressage original de Definitely Maybe signé par les frères Gallagher."];
+        yield ['clara@tsp.fr', 'clara', 'password', "Clara's Crates", self::CLARA_LIBRARY, "Saxophoniste amatrice, je collectionne les grands classiques du jazz des années 50 et 60, de préférence en pressage mono."];
+        yield ['lucas@tsp.fr', 'lucas', 'password', "Lucas' Groove Vault", self::LUCAS_LIBRARY, "DJ le week-end, je cherche les classiques du hip-hop américain et de l'électro française pour mes sets."];
+        yield ['emma@tsp.fr', 'emma', 'password', "Emma's Record Room", self::EMMA_LIBRARY, null];
+        yield ['hugo@tsp.fr', 'hugo', 'password', "Hugo's Collection", self::HUGO_LIBRARY, "Metalleux depuis mon premier concert d'Iron Maiden. Chaque vinyle de ma collection a une histoire de concert derrière lui."];
     }
 
     /**
@@ -149,13 +149,14 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::memberGenerator() as [$email, $username, $password, $libraryName, $libraryRef]) {
+        foreach (self::memberGenerator() as [$email, $username, $password, $libraryName, $libraryRef, $biography]) {
             $library = new Library();
             $library->setName($libraryName);
 
             $member = new Member();
             $member->setEmail($email);
             $member->setUsername($username);
+            $member->setBiography($biography);
             $member->setPassword($this->hasher->hashPassword($member, $password));
             $member->setLibrary($library); // côté propriétaire, obligatoire
 

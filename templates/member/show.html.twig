@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Membre {{ member.username }}{% endblock %}
+
+{% block body %}
+    <h1>{{ member.username }}</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Nom d'utilisateur</th>
+            <td>{{ member.username }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ member.email }}</td>
+        </tr>
+        <tr>
+            <th>Biographie</th>
+            <td>{{ member.biography ?? 'Aucune biographie' }}</td>
+        </tr>
+        <tr>
+            <th>Librairie</th>
+            <td><a href="{{ path('library_show', {'id' : member.library.id}) }}">{{ member.library.name }}</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('member_list') }}">Retour à la liste</a>
+
+{% endblock %} {# body #}
