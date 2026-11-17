@@ -1,12 +1,56 @@
-{# ... #}
+{% extends 'base.html.twig' %}
+
 {% block title %}Vinyl n°{{ vinyl.id }}{% endblock %}
 
 {% block body %}
     <h1>{{ vinyl.title }}</h1>
-    <h2>{{ vinyl.artist }}</h2>
+    <h2>{{ vinyl.artist ?? 'Artiste inconnu' }}</h2>
 
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Année</th>
+                <td>{{ vinyl.year ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ vinyl.type ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ vinyl.label ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>Pays de production</th>
+                <td>{{ vinyl.prodCountry ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>Année de production</th>
+                <td>{{ vinyl.prodYear ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>Signé</th>
+                <td>
+                    {% if vinyl.signed is null %}
+                        -
+                    {% else %}
+                        {{ vinyl.signed ? 'Oui' : 'Non' }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ vinyl.description ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>Librairie</th>
+                <td>
+                    <a href="{{ path('library_show', {'id' : vinyl.library.id}) }}">{{ vinyl.library.name }}</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <a href="{{ path('vinyl_list') }}">back to list</a>
 
 {% endblock %} {# body #}
-{# ... #}
