@@ -22,6 +22,7 @@
 ###> PhpStorm / JetBrains ###
 /.idea/
 *.iml
+/public/images/covers
 ###< PhpStorm / JetBrains ###
 
 ###> Eclipse ###
