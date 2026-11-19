@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Bac;
 use App\Entity\Member;
 use App\Entity\Vinyl;
+use App\Repository\VinylRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,6 +15,9 @@ class BacType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $bac = $options['data'] ?? null;
+        $member = $bac->getOwner();
+
         $builder
             ->add('public')
             ->add('name')
@@ -24,6 +28,14 @@ class BacType extends AbstractType
                 'required' => false,
                 'expanded' => true,
                 'by_reference' => false,
+                'query_builder' => function (VinylRepository $er) use ($member) {
+                return $er->createQueryBuilder('o')
+                    ->leftJoin('o.library', 'i')
+                    ->leftJoin('i.member', 'm')
+                    ->andWhere('m.id = :memberId')
+                    ->setParameter('memberId', $member->getId())
+                    ;
+                }
             ])
             ->add('owner', EntityType::class, [
                 'class' => Member::class,
