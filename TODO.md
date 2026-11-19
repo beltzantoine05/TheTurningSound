@@ -26,7 +26,7 @@ Nomenclature : `[inventaire]` = `Library`, `[objet]` = `Vinyl`, `[galerie]` = `B
 
 ## Jour 3 : formulaire de bac et authentification (~4 h)
 
-- [ ] 3.1 Étape 13.1 : champ `vinyls` dans `BacType` (`EntityType`, `multiple`, `expanded`, `by_reference => false`), propriétaire désactivé – prévoir du débogage (1 h)
+- [x] 3.1 Étape 13.1 : champ `vinyls` dans `BacType` (`EntityType`, `multiple`, `expanded`, `by_reference => false`), propriétaire désactivé – prévoir du débogage (1 h)
 - [ ] 3.2 Étape 13.2 : `query_builder` limitant les vinyles à ceux du propriétaire (30 min)
 - [ ] 3.3 Étape 15 : `make:security:form-login`, logout, `role_hierarchy`, `default_target_path` (1 h)
 - [ ] 3.4 Fixtures séparées `UserFixtures` + `AppFixtures` (`DependentFixtureInterface`), un compte `ROLE_ADMIN` (45 min)

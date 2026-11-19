@@ -20,9 +20,10 @@ class BacType extends AbstractType
             ->add('description')
             ->add('vinyls', EntityType::class, [
                 'class' => Vinyl::class,
-                'choice_label' => 'id',
                 'multiple' => true,
                 'required' => false,
+                'expanded' => true,
+                'by_reference' => false,
             ])
             ->add('owner', EntityType::class, [
                 'class' => Member::class,
