@@ -1,6 +1,6 @@
 # TODO – The Turning Sound
 
-Roadmap de fin de projet : 4 jours, 3 à 4 h par jour (~14 h au total).
+Roadmap de fin de projet : 4 jours prévus (mardi 17 → vendredi 20), échéance repoussée au dimanche 22 novembre.
 Nomenclature : `[inventaire]` = `Library`, `[objet]` = `Vinyl`, `[galerie]` = `Bac`.
 
 ## Déjà fait
@@ -24,21 +24,38 @@ Nomenclature : `[inventaire]` = `Library`, `[objet]` = `Vinyl`, `[galerie]` = `B
 - [x] 2.2 Étape 11.2 : création d'un vinyle depuis la fiche bibliothèque (`/vinyl/new/{id}`), champ bibliothèque désactivé, redirections vers la bibliothèque (1h15)
 - [x] 2.3 Étapes 12.1 à 12.4 : bacs sur la fiche membre, création contextualisée, redirections, `findBy(['public' => true])` dans le contrôleur (1h15)
 
-## Jour 3 : formulaire de bac et authentification (~4 h)
+## Jour 3 (mercredi–jeudi) : formulaires de bac et de vinyle
 
-- [x] 3.1 Étape 13.1 : champ `vinyls` dans `BacType` (`EntityType`, `multiple`, `expanded`, `by_reference => false`), propriétaire désactivé – prévoir du débogage (1 h)
-- [x] 3.2 Étape 13.2 : `query_builder` limitant les vinyles à ceux du propriétaire (30 min)
+- [x] 3.1 Étape 13.1 : champ `vinyls` dans `BacType` (`EntityType`, `multiple`, `expanded`, `by_reference => false`), propriétaire désactivé (1 h)
+- [x] 3.2 Étape 13.2 : `query_builder` limitant les vinyles d'un bac (et les bacs d'un vinyle) au propriétaire (30 min)
+
+## Vendredi 20 : images (~1 h)
+
+- [ ] 4.1 Étape 14 : VichUploader pour les pochettes
+  - [x] Installation, mapping `vinyl_covers`, champs `imageFile` / `imageName` / `updatedAt` dans `Vinyl`, migration
+  - [ ] Champ `VichImageType` dans `VinylType` (30 min)
+  - [ ] Affichage avec `vich_uploader_asset` sur les fiches vinyle (15 min)
+  - [ ] Images dans les fixtures (annexe 19.2) (20 min)
+
+## Samedi 21 : authentification (~2h15)
+
 - [ ] 3.3 Étape 15 : `make:security:form-login`, logout, `role_hierarchy`, `default_target_path` (1 h)
-- [ ] 3.4 Fixtures séparées `UserFixtures` + `AppFixtures` (`DependentFixtureInterface`), un compte `ROLE_ADMIN` (45 min)
-- [ ] 3.5 Liens login/logout contextuels dans le menu + commit (30 min)
+- [ ] 3.4 Fixtures séparées `UserFixtures` + `AppFixtures` (`DependentFixtureInterface`), mots de passe hachés, un compte `ROLE_ADMIN` (45 min)
+- [ ] 3.5 Liens login/logout contextuels dans le menu (30 min)
 
-## Jour 4 : images, accès et finitions (~3h30)
+## Dimanche 22 : accès et finitions (~1h45)
 
-- [ ] 4.1 Étape 14 : VichUploader pour les pochettes, upload dans le CRUD, affichage sur la fiche vinyle, images dans les fixtures (annexe 19.2) (1h45)
-- [ ] 4.2 Étapes 16.1 + 16.4 (optionnel) : `#[IsGranted]`, bac privé visible seulement par son propriétaire ou l'admin (1 h)
+- [ ] 4.2 Étapes 16.1 + 16.4 : `#[IsGranted]`, bac privé visible seulement par son propriétaire ou l'admin (1 h)
 - [ ] 4.3 Recette visiteur / membre / admin, recharger les fixtures, mettre à jour le README, commit final (45 min)
 
 ## En cas de retard
 
-Abandonner dans cet ordre : 4.2, puis les fixtures d'images de 4.1, puis 3.2.
-Prioritaires : 3.1, 3.3, 3.4, 3.5.
+Abandonner dans cet ordre : 4.2, puis les images dans les fixtures (4.1).
+Prioritaires : 3.3, 3.4, 3.5, 4.3.
+
+## À reprendre (petits restes)
+
+- [ ] Entrée « Bacs » dans le menu (`bootstrap_menu.yaml`)
+- [ ] `use ManagerRegistry` inutilisé dans `BacController`
+- [ ] `use Doctrine\ORM\EntityRepository` inutilisé dans `VinylType`
+- [ ] Références `self::XXX_LIBRARY` inutiles dans `bacGenerator` (`AppFixtures`), à faire avec la 3.4
