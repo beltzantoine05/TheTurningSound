@@ -8,10 +8,6 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ vinyl.id }}</td>
-            </tr>
-            <tr>
                 <th>Artist</th>
                 <td>{{ vinyl.artist }}</td>
             </tr>
@@ -47,8 +43,22 @@
                 <th>Description</th>
                 <td>{{ vinyl.description }}</td>
             </tr>
+            <tr>
+                <th>Cover</th>
+                <td>
+                    {% if vinyl.imageName %}
+                        <img src="{{ vich_uploader_asset(vinyl, 'imageFile') }}"
+                             alt="Pochette de {{ vinyl.title }}"
+                             class="img-fluid"
+                             style="width: 60%">
+                    {% else %}
+                        <p>Aucune pochette pour ce vinyle </p>
+                    {% endif %}
+                </td>
+            </tr>
         </tbody>
     </table>
+
 
     <a href="{{ path('app_vinyl_edit', {'id': vinyl.id}) }}">edit</a>
 

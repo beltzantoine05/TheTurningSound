@@ -43,6 +43,19 @@
             <td>{{ vinyl.description ?? '-' }}</td>
         </tr>
         <tr>
+            <th>Cover</th>
+            <td>
+                {% if vinyl.imageName %}
+                    <img src="{{ vich_uploader_asset(vinyl, 'imageFile') }}"
+                         alt="Pochette de {{ vinyl.title }}"
+                         class="img-fluid"
+                         style="width: 60%">
+                {% else %}
+                    <p>Aucune pochette pour ce vinyle </p>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
             <th>Librairie</th>
             <td>
                 <a href="{{ path('library_show', {'id' : vinyl.library.id}) }}">{{ vinyl.library.name }}</a>

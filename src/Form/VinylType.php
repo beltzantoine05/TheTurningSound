@@ -6,12 +6,11 @@ use App\Entity\Bac;
 use App\Entity\Library;
 use App\Entity\Vinyl;
 use App\Repository\BacRepository;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Vich\UploaderBundle\Form\Type\VichImageType;
 class VinylType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -29,6 +28,12 @@ class VinylType extends AbstractType
             ->add('prodYear')
             ->add('signed')
             ->add('description')
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'download_uri' => true,
+                'image_uri' => true,
+            ])
             ->add('library', EntityType::class, [
                 'class' => Library::class,
                 'disabled' => true,
@@ -47,7 +52,6 @@ class VinylType extends AbstractType
                         ->setParameter('memberId', $member)
                         ;
                 }
-
             ])
         ;
     }
