@@ -8,7 +8,6 @@ use App\Entity\Vinyl;
 use App\Form\BacType;
 use App\Repository\BacRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,16 +49,13 @@ final class BacController extends AbstractController
     #[Route('/{id}', name: 'app_bac_show', methods: ['GET'])]
     public function show(Bac $bac): Response
     {
-        $canAccess = ($bac->isPublic() || $this->isGranted('ROLE_ADMIN') || ($bac->getOwner() === $this->getUser()));
+        if (!$this->canAccess($bac)) {
+            throw $this->createAccessDeniedException("You cannot access the requested ressource!");
+        }
 
-        if (!$canAccess) {
-            throw $this->createAccessDeniedException();
-        }
-        else {
-            return $this->render('bac/show.html.twig', [
-                'bac' => $bac,
-            ]);
-        }
+        return $this->render('bac/show.html.twig', [
+            'bac' => $bac,
+        ]);
     }
 
     #[Route('/{id}/edit', name: 'app_bac_edit', methods: ['GET', 'POST'])]
@@ -100,19 +96,28 @@ final class BacController extends AbstractController
         Vinyl $vinyl,
     ) : Response
     {
-        $canAccess = ($bac->isPublic() || $this->isGranted('ROLE_ADMIN') || ($bac->getOwner() === $this->getUser()));
+        if (!$this->canAccess($bac)) {
+            throw $this->createAccessDeniedException("You cannot access the requested ressource!");
+        }
 
-        if (!$canAccess) {
-            throw $this->createAccessDeniedException();
+        if (!$bac->getVinyls()->contains($vinyl)) {
+            throw $this->createNotFoundException("Couldn't find such a vinyl in this bac !");
         }
-        else {
-            if(! $bac->getVinyls()->contains($vinyl)) {
-                throw $this->createNotFoundException("Couldn't find such a vinyl in this bac !");
-            }
-            return $this->render('bac/vinylshow.html.twig', [
-                'bac' => $bac,
-                'vinyl' => $vinyl,
-            ]);
-        }
+
+        return $this->render('bac/vinylshow.html.twig', [
+            'bac' => $bac,
+            'vinyl' => $vinyl,
+        ]);
+    }
+
+    /**
+     * Un bac est consultable s'il est public, par un administrateur, ou par son propriétaire.
+     * Pour un visiteur, getUser() vaut null : la comparaison est alors simplement fausse.
+     */
+    private function canAccess(Bac $bac): bool
+    {
+        return $bac->isPublic()
+            || $this->isGranted('ROLE_ADMIN')
+            || $bac->getOwner() === $this->getUser();
     }
 }

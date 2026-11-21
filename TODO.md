@@ -58,8 +58,8 @@ Prioritaires : 3.3, 3.4, 3.5, 4.3.
 ## À reprendre (petits restes)
 
 - [x] Entrée « Bacs » dans le menu (`bootstrap_menu.yaml`)
-- [ ] `use ManagerRegistry` inutilisé dans `BacController`
+- [x] `use ManagerRegistry` inutilisé dans `BacController`
 - [x] `use Doctrine\ORM\EntityRepository` inutilisé dans `VinylType`
-- [ ] Logo de la barre de navigation (`base.html.twig`) vers `app_bac_index` au lieu de `library_list` (protégée) ; `else` inutiles après `throw` dans `BacController` ; commentaire `# target: app_any_route` dans `security.yaml` (avec 4.4)
+- [x] Logo de la barre de navigation (`base.html.twig`) vers `app_bac_index` au lieu de `library_list` (protégée) ; `else` inutiles après `throw` dans `BacController` ; commentaire `# target: app_any_route` dans `security.yaml` (avec 4.4)
 - [ ] Libellés du menu : « Connexion » / « Déconnexion » (singulier, accent), clé YAML `déconnexions` en ASCII (avec 4.4)
 - [x] Références `self::XXX_LIBRARY` inutiles dans `bacGenerator` (`AppFixtures`), à faire avec la 3.4
