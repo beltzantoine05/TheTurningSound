@@ -39,7 +39,7 @@ Nomenclature : `[inventaire]` = `Library`, `[objet]` = `Vinyl`, `[galerie]` = `B
 
 ## Samedi 21 : authentification (~2h15)
 
-- [ ] 3.3 Étape 15 : `make:security:form-login`, logout, `role_hierarchy`, `default_target_path` (1 h)
+- [x] 3.3 Étape 15 : `make:security:form-login`, logout, `role_hierarchy`, `default_target_path` (1 h)
 - [ ] 3.4 Fixtures séparées `UserFixtures` + `AppFixtures` (`DependentFixtureInterface`), mots de passe hachés, un compte `ROLE_ADMIN` (45 min)
 - [ ] 3.5 Liens login/logout contextuels dans le menu (30 min)
 
