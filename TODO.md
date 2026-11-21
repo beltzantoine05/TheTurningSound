@@ -41,7 +41,7 @@ Nomenclature : `[inventaire]` = `Library`, `[objet]` = `Vinyl`, `[galerie]` = `B
 
 - [x] 3.3 Étape 15 : `make:security:form-login`, logout, `role_hierarchy`, `default_target_path` (1 h)
 - [x] 3.4 Fixtures séparées `UserFixtures` + `AppFixtures` (`DependentFixtureInterface`), mots de passe hachés, un compte `ROLE_ADMIN` (45 min)
-- [ ] 3.5 Liens login/logout contextuels dans le menu (30 min)
+- [x] 3.5 Liens login/logout contextuels dans le menu (30 min)
 
 ## Dimanche 22 : accès et finitions (~3 h)
 
@@ -57,7 +57,8 @@ Prioritaires : 3.3, 3.4, 3.5, 4.3.
 
 ## À reprendre (petits restes)
 
-- [ ] Entrée « Bacs » dans le menu (`bootstrap_menu.yaml`)
+- [x] Entrée « Bacs » dans le menu (`bootstrap_menu.yaml`)
 - [ ] `use ManagerRegistry` inutilisé dans `BacController`
 - [ ] `use Doctrine\ORM\EntityRepository` inutilisé dans `VinylType`
+- [ ] Libellés du menu : « Connexion » / « Déconnexion » (singulier, accent), clé YAML `déconnexions` en ASCII (avec 4.4)
 - [x] Références `self::XXX_LIBRARY` inutiles dans `bacGenerator` (`AppFixtures`), à faire avec la 3.4

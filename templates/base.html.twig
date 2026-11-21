@@ -40,6 +40,9 @@
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                             {{ render_bootstrap_menu('main') }}
                         </ul>
+                        {% if app.user %}
+                            <span class="navbar-text">{{ app.user.username }}</span>
+                        {% endif %}
                     </div>
                 </div>
             </nav>

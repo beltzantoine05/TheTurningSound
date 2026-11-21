@@ -11,4 +11,15 @@ bootstrap_menu:
                 vinyls:
                     label: 'Vinyls'
                     route: 'app_vinyl_index'
+                bacs:
+                    label: 'Bacs'
+                    route: 'app_bac_index'
+                connexions:
+                    label: 'Connexions'
+                    roles: ['!ROLE_USER', 'PUBLIC_ACCESS']
+                    route: 'app_login'
+                déconnexions:
+                    label: 'Deconnexions'
+                    roles: ['ROLE_USER']
+                    route: 'app_logout'
 
