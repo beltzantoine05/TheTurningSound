@@ -59,6 +59,6 @@ Prioritaires : 3.3, 3.4, 3.5, 4.3.
 
 - [x] Entrée « Bacs » dans le menu (`bootstrap_menu.yaml`)
 - [ ] `use ManagerRegistry` inutilisé dans `BacController`
-- [ ] `use Doctrine\ORM\EntityRepository` inutilisé dans `VinylType`
+- [x] `use Doctrine\ORM\EntityRepository` inutilisé dans `VinylType`
 - [ ] Libellés du menu : « Connexion » / « Déconnexion » (singulier, accent), clé YAML `déconnexions` en ASCII (avec 4.4)
 - [x] Références `self::XXX_LIBRARY` inutiles dans `bacGenerator` (`AppFixtures`), à faire avec la 3.4
