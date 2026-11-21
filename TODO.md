@@ -45,7 +45,7 @@ Nomenclature : `[inventaire]` = `Library`, `[objet]` = `Vinyl`, `[galerie]` = `B
 
 ## Dimanche 22 : accès et finitions (~3 h)
 
-- [ ] 4.2 Étapes 16.1 + 16.4 : `#[IsGranted]`, bac privé visible seulement par son propriétaire ou l'admin (1 h)
+- [x] 4.2 Étapes 16.1 + 16.4 + 16.5 : `#[IsGranted]`, bac privé (et ses vinyles) visible seulement par son propriétaire ou l'admin (1 h)
 - [ ] 4.4 Nettoyage HTML / CSS des gabarits : structure HTML valide, mise en forme uniforme (tableaux, titres, boutons Bootstrap pour les liens d'action), libellés en français, style plus soigné (1 h)
 - [ ] 4.1 (fin) Images dans les fixtures (annexe 19.2) : `assets/fixtures/covers/`, copie vers `public/images/covers/`, `setImageName()` (20 min)
 - [ ] 4.3 Recette visiteur / membre / admin, recharger les fixtures, mettre à jour le README, commit final (45 min)
@@ -60,5 +60,6 @@ Prioritaires : 3.3, 3.4, 3.5, 4.3.
 - [x] Entrée « Bacs » dans le menu (`bootstrap_menu.yaml`)
 - [ ] `use ManagerRegistry` inutilisé dans `BacController`
 - [x] `use Doctrine\ORM\EntityRepository` inutilisé dans `VinylType`
+- [ ] Logo de la barre de navigation (`base.html.twig`) vers `app_bac_index` au lieu de `library_list` (protégée) ; `else` inutiles après `throw` dans `BacController` ; commentaire `# target: app_any_route` dans `security.yaml` (avec 4.4)
 - [ ] Libellés du menu : « Connexion » / « Déconnexion » (singulier, accent), clé YAML `déconnexions` en ASCII (avec 4.4)
 - [x] Références `self::XXX_LIBRARY` inutiles dans `bacGenerator` (`AppFixtures`), à faire avec la 3.4

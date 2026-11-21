@@ -50,9 +50,16 @@ final class BacController extends AbstractController
     #[Route('/{id}', name: 'app_bac_show', methods: ['GET'])]
     public function show(Bac $bac): Response
     {
-        return $this->render('bac/show.html.twig', [
-            'bac' => $bac,
-        ]);
+        $canAccess = ($bac->isPublic() || $this->isGranted('ROLE_ADMIN') || ($bac->getOwner() === $this->getUser()));
+
+        if (!$canAccess) {
+            throw $this->createAccessDeniedException();
+        }
+        else {
+            return $this->render('bac/show.html.twig', [
+                'bac' => $bac,
+            ]);
+        }
     }
 
     #[Route('/{id}/edit', name: 'app_bac_edit', methods: ['GET', 'POST'])]
@@ -93,18 +100,19 @@ final class BacController extends AbstractController
         Vinyl $vinyl,
     ) : Response
     {
+        $canAccess = ($bac->isPublic() || $this->isGranted('ROLE_ADMIN') || ($bac->getOwner() === $this->getUser()));
 
-        if(! $bac->getVinyls()->contains($vinyl)) {
-            throw $this->createNotFoundException("Couldn't find such a vinyl in this bac !");
+        if (!$canAccess) {
+            throw $this->createAccessDeniedException();
         }
-
-        if (! $bac->isPublic()) {
-           throw $this->createAccessDeniedException("You cannot access the requested ressource!");
+        else {
+            if(! $bac->getVinyls()->contains($vinyl)) {
+                throw $this->createNotFoundException("Couldn't find such a vinyl in this bac !");
+            }
+            return $this->render('bac/vinylshow.html.twig', [
+                'bac' => $bac,
+                'vinyl' => $vinyl,
+            ]);
         }
-
-        return $this->render('bac/vinylshow.html.twig', [
-            'bac' => $bac,
-            'vinyl' => $vinyl,
-        ]);
     }
 }
