@@ -1,0 +1,45 @@
+@startuml
+' Modèle de données de The Turning Sound (source de DataModel.png)
+' [inventaire] = Library, [objet] = Vinyl, [galerie] = Bac
+
+class Member {
+    -id: int
+    -email: string
+    -username: string
+    -roles: array
+    -password: string
+    -biography: text
+}
+
+class Library {
+    -id: int
+    -name: string
+}
+
+class Bac {
+    -id: int
+    -name: string
+    -description: string
+    -public: boolean
+}
+
+class Vinyl {
+    -id: int
+    -title: string
+    -artist: string
+    -year: int
+    -type: string
+    -label: string
+    -prodCountry: string
+    -prodYear: int
+    -signed: boolean
+    -description: string
+    -imageName: string
+    -updatedAt: datetime
+}
+
+Member "1" *-- "1" Library : possède
+Library "1" *-- "N" Vinyl : contient
+Member "1" *-- "N" Bac : crée
+Bac "N" -- "M" Vinyl : regroupe
+@enduml

@@ -43,7 +43,8 @@ les disques.
 3. MODÈLE DE DONNÉES
 --------------------------------------------------------------------------------
 
-(schéma également disponible dans DataModel.png)
+Le diagramme de classes complet est dans le fichier DataModel.png, à la racine
+du projet. Sa source PlantUML est dans DataModel.puml.
 
   Member 1 ---- 1 Library 1 ---- * Vinyl * ---- * Bac * ---- 1 Member
 
