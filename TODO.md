@@ -31,11 +31,11 @@ Nomenclature : `[inventaire]` = `Library`, `[objet]` = `Vinyl`, `[galerie]` = `B
 
 ## Vendredi 20 : images (~1 h)
 
-- [ ] 4.1 Étape 14 : VichUploader pour les pochettes
+- [x] 4.1 Étape 14 : VichUploader pour les pochettes
   - [x] Installation, mapping `vinyl_covers`, champs `imageFile` / `imageName` / `updatedAt` dans `Vinyl`, migration
   - [x] Champ `VichImageType` dans `VinylType` (30 min)
   - [x] Affichage avec `vich_uploader_asset` sur les fiches vinyle (15 min)
-  - [ ] Images dans les fixtures (annexe 19.2) : repoussé au dimanche, après 4.4
+  - [x] Images dans les fixtures (annexe 19.2) : fait dimanche, après 4.4
 
 ## Samedi 21 : authentification (~2h15)
 
@@ -47,7 +47,7 @@ Nomenclature : `[inventaire]` = `Library`, `[objet]` = `Vinyl`, `[galerie]` = `B
 
 - [x] 4.2 Étapes 16.1 + 16.4 + 16.5 : `#[IsGranted]`, bac privé (et ses vinyles) visible seulement par son propriétaire ou l'admin (1 h)
 - [x] 4.4 Nettoyage HTML / CSS des gabarits : structure HTML valide, mise en forme uniforme (tableaux, titres, boutons Bootstrap pour les liens d'action), libellés en français, style plus soigné (1 h)
-- [ ] 4.1 (fin) Images dans les fixtures (annexe 19.2) : `assets/fixtures/covers/`, copie vers `public/images/covers/`, `setImageName()` (20 min)
+- [x] 4.1 (fin) Images dans les fixtures (annexe 19.2) : `fixtures/covers/`, copie vers `public/images/covers/`, `setImageName()` (20 min)
 - [ ] 4.3 Recette visiteur / membre / admin, recharger les fixtures, mettre à jour le README, commit final (45 min)
 
 ## En cas de retard

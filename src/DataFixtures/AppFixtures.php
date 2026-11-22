@@ -11,6 +11,7 @@ use App\Entity\Vinyl;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Données de l'application : vinyles et bacs.
@@ -26,6 +27,32 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
     {
         return [UserFixtures::class];
     }
+
+    /**
+     * Pochettes des vinyles : titre du vinyle => fichier image dans fixtures/covers/
+     * (photos des vinyles d'Antoine, nettoyées de leurs métadonnées)
+     * Les vinyles absents de cette liste n'ont pas de pochette.
+     */
+    private const COVERS = [
+        'Thriller' => 'michael-jackson-thriller.jpg',
+        'Thriller (maxi)' => 'michael-jackson-thriller-maxi.jpg',
+        'Bad' => 'michael-jackson-bad.jpg',
+        'Dangerous' => 'michael-jackson-dangerous.jpg',
+        'High Voltage' => 'acdc-high-voltage.jpg',
+        'Highway to Hell' => 'acdc-highway-to-hell.jpg',
+        'Live' => 'acdc-live.jpg',
+        'Master of Puppets' => 'metallica-master-of-puppets.jpg',
+        'Ride the Lightning' => 'metallica-ride-the-lightning.jpg',
+        'Appetite for Destruction' => 'guns-n-roses-appetite-for-destruction.jpg',
+        'Led Zeppelin IV' => 'led-zeppelin-iv.jpg',
+        'Rammstein' => 'rammstein.jpg',
+        "Never Mind the Bollocks, Here's the Sex Pistols" => 'sex-pistols-never-mind-the-bollocks.jpg',
+        'Woodstock 1994' => 'green-day-woodstock-1994.jpg',
+        'The Kids Are Alright' => 'the-who-the-kids-are-alright.jpg',
+        'Battlefield V' => 'battlefield-v.jpg',
+        'Star Wars : Les Derniers Jedi' => 'star-wars-the-last-jedi.jpg',
+        "C'est la belle nuit de Noël" => 'tino-rossi-belle-nuit-de-noel.jpg',
+    ];
 
     /**
      * Generates initialization data for vinyls
@@ -93,6 +120,22 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
         yield [UserFixtures::ROD_LIBRARY, "Wonderwall", "Oasis", 1995, "Maxi 45 tours", "Creation Records", "Royaume-Uni", 1995, false, null];
         yield [UserFixtures::LUCAS_LIBRARY, "Around the World", "Daft Punk", 1997, "Maxi 45 tours", "Virgin", "France", 1997, false, "Maxi avec remixes."];
         yield [UserFixtures::EMMA_LIBRARY, "Hey Jude", "The Beatles", 1968, "45 tours", "Apple Records", "Royaume-Uni", 1968, false, null];
+
+        // Vinyles d'Antoine photographiés (pochettes dans fixtures/covers/)
+        yield [UserFixtures::ANTOINE_LIBRARY, "High Voltage", "AC/DC", 1976, "33 tours", "Atlantic", "Royaume-Uni", 1976, false, "Premier album international du groupe."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Highway to Hell", "AC/DC", 1979, "33 tours", "Atlantic", "Royaume-Uni", 1979, false, "Dernier album avec Bon Scott."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Live", "AC/DC", 1992, "Double LP", "Atco", "États-Unis", 1992, false, "Enregistré pendant la tournée The Razors Edge."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Bad", "Michael Jackson", 1987, "33 tours", "Epic", "États-Unis", 1987, false, null];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Dangerous", "Michael Jackson", 1991, "Double LP", "Epic", "États-Unis", 1991, false, "Pochette illustrée par Mark Ryden."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Thriller (maxi)", "Michael Jackson", 1983, "Maxi 45 tours", "Epic", "États-Unis", 1983, false, "Version longue du single."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Ride the Lightning", "Metallica", 1984, "33 tours", "Megaforce", "États-Unis", 1984, false, null];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Rammstein", "Rammstein", 2019, "Double LP", "Universal", "Allemagne", 2019, false, "L'album sans titre, à la pochette blanche et son allumette."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Never Mind the Bollocks, Here's the Sex Pistols", "Sex Pistols", 1977, "33 tours", "Virgin", "Royaume-Uni", 1977, false, "Le manifeste du punk anglais."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Woodstock 1994", "Green Day", 1994, "33 tours", "Reprise", "États-Unis", 2019, false, "Le concert de Woodstock 94, édité pour le Record Store Day."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "The Kids Are Alright", "The Who", 1979, "Double LP", "Polydor", "Royaume-Uni", 1979, false, "Bande originale du documentaire sur le groupe."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Battlefield V", "Johan Söderqvist & Patrik Andrén", 2018, "Picture disc", null, null, 2018, false, "Bande originale du jeu vidéo, en picture disc."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "Star Wars : Les Derniers Jedi", "John Williams", 2017, "Double LP", "Walt Disney Records", "États-Unis", 2018, false, "Bande originale de l'épisode VIII."];
+        yield [UserFixtures::ANTOINE_LIBRARY, "C'est la belle nuit de Noël", "Tino Rossi", 1946, "33 tours", "Columbia", "France", null, false, "Petit Papa Noël, Douce nuit, Mon beau sapin…"];
     }
 
     /**
@@ -129,7 +172,9 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::vinylGenerator() as [$library_ref, $title, $artist, $year, $type, $label, $prodCountry, $prodYear, $signed, $description]) {
+        $fileSystem = new Filesystem();
+        $root = dirname(__DIR__, 2);
+        foreach (self::vinylGenerator() as [$library_ref, $title, $artist, $year, $type, $label, $prodCountry, $prodYear, $signed, $description ]) {
             $library = $this->getReference($library_ref, Library::class);
             $vinyl = new Vinyl();
             $vinyl->setTitle($title);
@@ -143,6 +188,12 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
             $vinyl->setDescription($description);
             $library->addVinyl($vinyl);
             $manager->persist($vinyl);
+            $isInCovers = array_key_exists($title, self::COVERS);
+            if ($isInCovers) {
+                $coverFile = self::COVERS[$title];
+                $fileSystem->copy($root . '/fixtures/covers/' . $coverFile, $root . '/public/images/covers/' . $coverFile);
+                $vinyl->setImageName($coverFile);
+            }
         }
         $manager->flush();
 
