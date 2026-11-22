@@ -9,3 +9,11 @@
 
 controllers:
     resource: routing.controllers
+
+# Page d'accueil : redirige vers la liste publique des bacs
+homepage:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+        route: app_bac_index
+        permanent: false
