@@ -2,24 +2,28 @@ bootstrap_menu:
     menus:
         main:
             items:
-                libraries:
-                    label: 'Libraries'
-                    route: 'library_list'
-                members:
-                    label: 'Membres'
-                    route: 'member_list'
-                vinyls:
-                    label: 'Vinyls'
-                    route: 'app_vinyl_index'
                 bacs:
                     label: 'Bacs'
                     route: 'app_bac_index'
-                connexions:
-                    label: 'Connexions'
-                    roles: ['!ROLE_USER', 'PUBLIC_ACCESS']
-                    route: 'app_login'
-                déconnexions:
-                    label: 'Deconnexions'
+                # Pages réservées aux membres connectés (étape 16.1) : cachées aux visiteurs
+                libraries:
+                    label: 'Bibliothèques'
+                    route: 'library_list'
                     roles: ['ROLE_USER']
+                members:
+                    label: 'Membres'
+                    route: 'member_list'
+                    roles: ['ROLE_USER']
+                vinyls:
+                    label: 'Vinyles'
+                    route: 'app_vinyl_index'
+                    roles: ['ROLE_USER']
+                # Un rôle préfixé par « ! » ne fait qu'exclure : PUBLIC_ACCESS autorise les visiteurs
+                login:
+                    label: 'Connexion'
+                    route: 'app_login'
+                    roles: ['!ROLE_USER', 'PUBLIC_ACCESS']
+                logout:
+                    label: 'Déconnexion'
                     route: 'app_logout'
-
+                    roles: ['ROLE_USER']

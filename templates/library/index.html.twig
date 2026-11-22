@@ -1,19 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}librairies{% endblock %}
+{% block title %}Bibliothèques{% endblock %}
+
+{% block header_title %}Bibliothèques{% endblock %}
+{% block header_subtitle %}Les collections de vinyles des membres{% endblock %}
 
 {% block body %}
-    <h1>library index</h1>
-    <ul>
-        <table class="table">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Propriétaire</th>
+                <th>Vinyles</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
             {% for library in libraries %}
                 <tr>
-                    {%  dump library %}
-                    <th>{{ library.name }}</th>
-                    <th><a href="{{ path('library_show', {'id' : library.id}) }}">Lien vers la library</a></th>
+                    <td>
+                        {% dump library %}
+                        {{ library.name }}
+                    </td>
+                    <td>{{ library.member.username }}</td>
+                    <td>{{ library.vinyls|length }}</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-dark" href="{{ path('library_show', {'id': library.id}) }}">Voir</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-muted">Aucune bibliothèque.</td>
                 </tr>
             {% endfor %}
-        </table>
-    </ul>
-
-{% endblock %} {# body #}
+        </tbody>
+    </table>
+{% endblock %}

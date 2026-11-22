@@ -1,69 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vinyl n°{{ vinyl.id }}{% endblock %}
+{% block title %}{{ vinyl.title }} · {{ bac.name }}{% endblock %}
+
+{% block header_title %}{{ vinyl.title }}{% endblock %}
+{% block header_subtitle %}{{ vinyl.artist ?? 'Artiste inconnu' }} · dans le bac « {{ bac.name }} »{% endblock %}
 
 {% block body %}
-    <h1>{{ vinyl.title }}</h1>
-    <h2>{{ vinyl.artist ?? 'Artiste inconnu' }}</h2>
+    {% dump vinyl %}
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Année</th>
-            <td>{{ vinyl.year ?? '-' }}</td>
-        </tr>
-        <tr>
-            <th>Type</th>
-            <td>{{ vinyl.type ?? '-' }}</td>
-        </tr>
-        <tr>
-            <th>Label</th>
-            <td>{{ vinyl.label ?? '-' }}</td>
-        </tr>
-        <tr>
-            <th>Pays de production</th>
-            <td>{{ vinyl.prodCountry ?? '-' }}</td>
-        </tr>
-        <tr>
-            <th>Année de production</th>
-            <td>{{ vinyl.prodYear ?? '-' }}</td>
-        </tr>
-        <tr>
-            <th>Signé</th>
-            <td>
-                {% if vinyl.signed is null %}
-                    -
-                {% else %}
-                    {{ vinyl.signed ? 'Oui' : 'Non' }}
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <th>Description</th>
-            <td>{{ vinyl.description ?? '-' }}</td>
-        </tr>
-        <tr>
-            <th>Cover</th>
-            <td>
-                {% if vinyl.imageName %}
-                    <img src="{{ vich_uploader_asset(vinyl, 'imageFile') }}"
-                         alt="Pochette de {{ vinyl.title }}"
-                         class="img-fluid"
-                         style="width: 60%">
-                {% else %}
-                    <p>Aucune pochette pour ce vinyle </p>
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <th>Librairie</th>
-            <td>
-                <a href="{{ path('library_show', {'id' : vinyl.library.id}) }}">{{ vinyl.library.name }}</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    {{ include('vinyl/_details.html.twig') }}
 
-    <a href="{{ path('app_bac_show', {'id': bac.id}) }}">Retour au bac</a>
-
-{% endblock %} {# body #}
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-dark" href="{{ path('app_bac_show', {'id': bac.id}) }}">Retour au bac</a>
+    </div>
+{% endblock %}

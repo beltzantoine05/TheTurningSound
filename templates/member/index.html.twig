@@ -2,19 +2,37 @@
 
 {% block title %}Membres{% endblock %}
 
+{% block header_title %}Membres{% endblock %}
+{% block header_subtitle %}Les collectionneurs de The Turning Sound{% endblock %}
+
 {% block body %}
-    <h1>Liste des membres</h1>
-    <ul>
-        <table class="table">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nom d'utilisateur</th>
+                <th>Email</th>
+                <th>Bibliothèque</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
             {% for member in members %}
                 <tr>
-                    {%  dump member %}
-                    <th><a href="{{ path('member_show', {'username' : member.username}) }}">{{ member.username }}</a></th>
-                    <th>{{ member.email }}</th>
-                    <th><a href="{{ path('library_show', {'id' : member.library.id}) }}">Lien vers sa librarie</a></th>
+                    <td>
+                        {% dump member %}
+                        {{ member.username }}
+                    </td>
+                    <td>{{ member.email }}</td>
+                    <td><a href="{{ path('library_show', {'id': member.library.id}) }}">{{ member.library.name }}</a></td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-dark" href="{{ path('member_show', {'username': member.username}) }}">Voir</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-muted">Aucun membre.</td>
                 </tr>
             {% endfor %}
-        </table>
-    </ul>
-
-{% endblock %} {# body #}
+        </tbody>
+    </table>
+{% endblock %}

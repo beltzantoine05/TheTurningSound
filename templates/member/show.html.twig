@@ -1,59 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Membre {{ member.username }}{% endblock %}
+{% block title %}{{ member.username }}{% endblock %}
+
+{% block header_title %}{{ member.username }}{% endblock %}
+{% block header_subtitle %}Membre de The Turning Sound{% endblock %}
 
 {% block body %}
-    <h1>{{ member.username }}</h1>
+    {# Le propriétaire du profil ou un administrateur peut gérer les bacs #}
+    {% set can_manage = is_granted('ROLE_ADMIN') or app.user is same as(member) %}
 
-    <table class="table">
+    <h2 class="h4 mb-3">Profil</h2>
+    <table class="table mb-5">
         <tbody>
-        <tr>
-            <th>Nom d'utilisateur</th>
-            <td>{{ member.username }}</td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td>{{ member.email }}</td>
-        </tr>
-        <tr>
-            <th>Biographie</th>
-            <td>{{ member.biography ?? 'Aucune biographie' }}</td>
-        </tr>
-        <tr>
-            <th>Librairie</th>
-            <td><a href="{{ path('library_show', {'id' : member.library.id}) }}">{{ member.library.name }}</a></td>
-        </tr>
-        <tr>
-            <th>Bacs</th>
-            <td>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for bac in bacs %}
-                        <tr>
-                            {% dump bac %}
-                                <td>{{ bac.name }}</td>
-                                <td>{{ bac.description }}</td>
-                                <td>
-                                    <a href="{{ path('app_bac_show', {'id': bac.id}) }}">show</a>
-                                    <a href="{{ path('app_bac_edit', {'id': bac.id}) }}">edit</a>
-                                </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </td>
-        </tr>
+            <tr>
+                <th scope="row">Nom d'utilisateur</th>
+                <td>{{ member.username }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Email</th>
+                <td>{{ member.email }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Biographie</th>
+                <td>{{ member.biography ?? 'Aucune biographie' }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Bibliothèque</th>
+                <td><a href="{{ path('library_show', {'id': member.library.id}) }}">{{ member.library.name }}</a></td>
+            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_bac_new', {'id': member.id}) }}"> Ajouter un nouveau bac</a>
-    <a href="{{ path('member_list') }}">Retour à la liste</a>
+    <h2 class="h4 mb-3">Bacs ({{ bacs|length }})</h2>
+    <table class="table table-hover mb-5">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Visibilité</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bac in bacs %}
+                <tr>
+                    <td>
+                        {% dump bac %}
+                        {{ bac.name }}
+                    </td>
+                    <td>{{ bac.description ?? '-' }}</td>
+                    <td>
+                        {% if bac.public %}
+                            <span class="badge bg-success">Public</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Privé</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-dark" href="{{ path('app_bac_show', {'id': bac.id}) }}">Voir</a>
+                        {% if can_manage %}
+                            <a class="btn btn-sm btn-dark" href="{{ path('app_bac_edit', {'id': bac.id}) }}">Modifier</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-muted">Ce membre n'a encore créé aucun bac.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-{% endblock %} {# body #}
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-dark" href="{{ path('member_list') }}">Retour à la liste</a>
+        {% if can_manage %}
+            <a class="btn btn-dark" href="{{ path('app_bac_new', {'id': member.id}) }}">Ajouter un bac</a>
+        {% endif %}
+    </div>
+{% endblock %}

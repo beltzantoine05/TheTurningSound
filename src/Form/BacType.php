@@ -19,10 +19,11 @@ class BacType extends AbstractType
         $member = $bac->getOwner();
 
         $builder
-            ->add('public')
-            ->add('name')
-            ->add('description')
+            ->add('public', null, ['label' => 'Bac public (visible par tous)'])
+            ->add('name', null, ['label' => 'Nom'])
+            ->add('description', null, ['label' => 'Description'])
             ->add('vinyls', EntityType::class, [
+                'label' => 'Vinyles du bac',
                 'class' => Vinyl::class,
                 'multiple' => true,
                 'required' => false,
@@ -38,6 +39,7 @@ class BacType extends AbstractType
                 }
             ])
             ->add('owner', EntityType::class, [
+                'label' => 'Propriétaire',
                 'class' => Member::class,
                 'disabled' => true,
                 'choice_label' => 'username',

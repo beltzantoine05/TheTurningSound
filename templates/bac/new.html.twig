@@ -1,11 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Bac{% endblock %}
+{% block title %}Nouveau bac{% endblock %}
+
+{% block header_title %}Nouveau bac{% endblock %}
+{% block header_subtitle %}Pour {{ bac.owner.username }}{% endblock %}
 
 {% block body %}
-    <h1>Create new Bac</h1>
+    <div class="mb-5">
+        {{ include('bac/_form.html.twig', {'button_label': 'Créer le bac'}) }}
+    </div>
 
-    {{ include('bac/_form.html.twig') }}
-
-    <a href="{{ path('app_bac_index') }}">back to list</a>
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-dark" href="{{ path('member_show', {'username': bac.owner.username}) }}">Retour au membre</a>
+    </div>
 {% endblock %}

@@ -1,31 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bac index{% endblock %}
+{% block title %}Bacs publics{% endblock %}
+
+{% block header_title %}Bacs publics{% endblock %}
+{% block header_subtitle %}Les sélections partagées par les membres{% endblock %}
 
 {% block body %}
-    <h1>Tous les bacs</h1>
-
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
-                <th>Name</th>
+                <th>Nom</th>
                 <th>Description</th>
-                <th>actions</th>
+                <th>Propriétaire</th>
+                <th>Vinyles</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-        {% for bac in bacs %}
-            <tr>
-                {% dump bac %}
-                <td>{{ bac.name }}</td>
-                <td>{{ bac.description }}</td>
-                <td>
-                    <a href="{{ path('app_bac_show', {'id': bac.id}) }}">show</a>
-                    <a href="{{ path('app_bac_edit', {'id': bac.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for bac in bacs %}
+                <tr>
+                    <td>
+                        {% dump bac %}
+                        {{ bac.name }}
+                    </td>
+                    <td>{{ bac.description ?? '-' }}</td>
+                    <td>{{ bac.owner.username }}</td>
+                    <td>{{ bac.vinyls|length }}</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-dark" href="{{ path('app_bac_show', {'id': bac.id}) }}">Voir</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-muted">Aucun bac public pour le moment.</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}

@@ -1,0 +1,64 @@
+{# Détails d'un vinyle, partagés par vinyl/show et bac/vinylshow #}
+<div class="row g-5 mb-5">
+    <div class="col-md-4">
+        {% if vinyl.imageName %}
+            <img src="{{ vich_uploader_asset(vinyl, 'imageFile') }}"
+                 alt="Pochette de {{ vinyl.title }}"
+                 class="img-fluid rounded shadow-sm">
+        {% else %}
+            <div class="bg-light border rounded d-flex align-items-center justify-content-center text-muted" style="aspect-ratio: 1;">
+                <span><i class="bi bi-disc"></i> Aucune pochette</span>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-8">
+        <h2 class="h4 mb-3">Caractéristiques</h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">Artiste</th>
+                    <td>{{ vinyl.artist ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Année</th>
+                    <td>{{ vinyl.year ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Type</th>
+                    <td>{{ vinyl.type ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Label</th>
+                    <td>{{ vinyl.label ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Pays de production</th>
+                    <td>{{ vinyl.prodCountry ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Année de production</th>
+                    <td>{{ vinyl.prodYear ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Signé</th>
+                    <td>{{ vinyl.signed is null ? '-' : (vinyl.signed ? 'Oui' : 'Non') }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Description</th>
+                    <td>{{ vinyl.description ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Bibliothèque</th>
+                    <td>
+                        {% if app.user %}
+                            <a href="{{ path('library_show', {'id': vinyl.library.id}) }}">{{ vinyl.library.name }}</a>
+                        {% else %}
+                            {{ vinyl.library.name }}
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

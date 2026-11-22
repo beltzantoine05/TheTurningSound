@@ -1,13 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Bac{% endblock %}
+{% block title %}Modifier {{ bac.name }}{% endblock %}
+
+{% block header_title %}Modifier le bac{% endblock %}
+{% block header_subtitle %}{{ bac.name }}{% endblock %}
 
 {% block body %}
-    <h1>Edit Bac</h1>
+    <div class="mb-5">
+        {{ include('bac/_form.html.twig') }}
+    </div>
 
-    {{ include('bac/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_bac_index') }}">back to list</a>
-
-    {{ include('bac/_delete_form.html.twig') }}
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-dark" href="{{ path('app_bac_show', {'id': bac.id}) }}">Retour au bac</a>
+        {{ include('bac/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

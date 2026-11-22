@@ -1,58 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Librairie {{ library.name }}{% endblock %}
+{% block title %}{{ library.name }}{% endblock %}
+
+{% block header_title %}{{ library.name }}{% endblock %}
+{% block header_subtitle %}La bibliothèque de {{ library.member.username }}{% endblock %}
 
 {% block body %}
-    <h1>{{ library.name }}</h1>
-
     {% dump library %}
 
-    <table class="table">
+    <h2 class="h4 mb-3">Caractéristiques</h2>
+    <table class="table mb-5">
         <tbody>
-        <tr>
-            <th>Nom</th>
-            <td>{{ library.name }}</td>
-        </tr>
-        <tr>
-            <th>Propriétaire</th>
-            <td><a href="{{ path('member_show', {'username' : library.member.username}) }}">{{ library.member.username }}</a></td>
-        </tr>
-        <tr>
-            <th>Nombre de vinyles</th>
-            <td>{{ vinyls|length }}</td>
-        </tr>
+            <tr>
+                <th scope="row">Propriétaire</th>
+                <td><a href="{{ path('member_show', {'username': library.member.username}) }}">{{ library.member.username }}</a></td>
+            </tr>
+            <tr>
+                <th scope="row">Nombre de vinyles</th>
+                <td>{{ vinyls|length }}</td>
+            </tr>
         </tbody>
     </table>
 
-    <h2>Vinyles de la librairie</h2>
-
-    <table class="table">
+    <h2 class="h4 mb-3">Vinyles de la bibliothèque ({{ vinyls|length }})</h2>
+    <table class="table table-hover mb-5">
         <thead>
-        <tr>
-            <th>Titre</th>
-            <th>Artiste</th>
-            <th></th>
-        </tr>
+            <tr>
+                <th>Titre</th>
+                <th>Artiste</th>
+                <th>Année</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
-        {% for vinyl in vinyls %}
-            <tr>
-                {% dump vinyl %}
-                <td>{{ vinyl.title }}</td>
-                <td>{{ vinyl.artist ?? '-' }}</td>
-                <td><a href="{{ path('app_vinyl_show', {'id' : vinyl.id}) }}">Voir le vinyle</a></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Aucun vinyle dans cette librairie</td>
-            </tr>
-        {% endfor %}
+            {% for vinyl in vinyls %}
+                <tr>
+                    <td>
+                        {% dump vinyl %}
+                        {{ vinyl.title }}
+                    </td>
+                    <td>{{ vinyl.artist ?? '-' }}</td>
+                    <td>{{ vinyl.year ?? '-' }}</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-dark" href="{{ path('app_vinyl_show', {'id': vinyl.id}) }}">Voir</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-muted">Cette bibliothèque ne contient aucun vinyle.</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_vinyl_new', {'id': library.id}) }}">Ajouter un nouveau vinyle</a>
-
-
-    <a href="{{ path('library_list') }}">Retour à la liste</a>
-
-{% endblock %} {# body #}
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-dark" href="{{ path('library_list') }}">Retour à la liste</a>
+        {% if is_granted('ROLE_ADMIN') or app.user is same as(library.member) %}
+            <a class="btn btn-dark" href="{{ path('app_vinyl_new', {'id': library.id}) }}">Ajouter un vinyle</a>
+        {% endif %}
+    </div>
+{% endblock %}

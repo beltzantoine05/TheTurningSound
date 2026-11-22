@@ -19,26 +19,31 @@ class VinylType extends AbstractType
         $member = $vinyl->getLibrary()->getMember();
 
         $builder
-            ->add('artist')
-            ->add('title')
-            ->add('year')
-            ->add('type')
-            ->add('label')
-            ->add('prodCountry')
-            ->add('prodYear')
-            ->add('signed')
-            ->add('description')
+            ->add('artist', null, ['label' => 'Artiste'])
+            ->add('title', null, ['label' => 'Titre'])
+            ->add('year', null, ['label' => 'Année'])
+            ->add('type', null, ['label' => 'Type (33 tours, 45 tours…)'])
+            ->add('label', null, ['label' => 'Label'])
+            ->add('prodCountry', null, ['label' => 'Pays de production'])
+            ->add('prodYear', null, ['label' => 'Année de production'])
+            ->add('signed', null, ['label' => 'Signé'])
+            ->add('description', null, ['label' => 'Description'])
             ->add('imageFile', VichImageType::class, [
+                'label' => 'Pochette',
                 'required' => false,
                 'allow_delete' => true,
                 'download_uri' => true,
                 'image_uri' => true,
+                'delete_label' => 'Supprimer la pochette',
+                'download_label' => 'Télécharger',
             ])
             ->add('library', EntityType::class, [
+                'label' => 'Bibliothèque',
                 'class' => Library::class,
                 'disabled' => true,
             ])
             ->add('bacs', EntityType::class, [
+                'label' => 'Bacs',
                 'class' => Bac::class,
                 'choice_label' => 'name',
                 'multiple' => true,

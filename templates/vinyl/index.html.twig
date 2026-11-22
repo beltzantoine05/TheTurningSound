@@ -1,49 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vinyl index{% endblock %}
+{% block title %}Vinyles{% endblock %}
+
+{% block header_title %}Vinyles{% endblock %}
+{% block header_subtitle %}Tous les vinyles des bibliothèques{% endblock %}
 
 {% block body %}
-    <h1>Vinyl index</h1>
-
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Artist</th>
-                <th>Title</th>
-                <th>Year</th>
+                <th>Titre</th>
+                <th>Artiste</th>
+                <th>Année</th>
                 <th>Type</th>
-                <th>Label</th>
-                <th>ProdCountry</th>
-                <th>ProdYear</th>
-                <th>Signed</th>
-                <th>Description</th>
-                <th>actions</th>
+                <th>Bibliothèque</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-        {% for vinyl in vinyls %}
-            <tr>
-                <td>{{ vinyl.id }}</td>
-                <td>{{ vinyl.artist }}</td>
-                <td>{{ vinyl.title }}</td>
-                <td>{{ vinyl.year }}</td>
-                <td>{{ vinyl.type }}</td>
-                <td>{{ vinyl.label }}</td>
-                <td>{{ vinyl.prodCountry }}</td>
-                <td>{{ vinyl.prodYear }}</td>
-                <td>{{ vinyl.signed ? 'Yes' : 'No' }}</td>
-                <td>{{ vinyl.description }}</td>
-                <td>
-                    <a href="{{ path('app_vinyl_show', {'id': vinyl.id}) }}">show</a>
-                    <a href="{{ path('app_vinyl_edit', {'id': vinyl.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for vinyl in vinyls %}
+                <tr>
+                    <td>{{ vinyl.title }}</td>
+                    <td>{{ vinyl.artist ?? '-' }}</td>
+                    <td>{{ vinyl.year ?? '-' }}</td>
+                    <td>{{ vinyl.type ?? '-' }}</td>
+                    <td><a href="{{ path('library_show', {'id': vinyl.library.id}) }}">{{ vinyl.library.name }}</a></td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-dark" href="{{ path('app_vinyl_show', {'id': vinyl.id}) }}">Voir</a>
+                        {% if is_granted('ROLE_ADMIN') or app.user is same as(vinyl.library.member) %}
+                            <a class="btn btn-sm btn-dark" href="{{ path('app_vinyl_edit', {'id': vinyl.id}) }}">Modifier</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-muted">Aucun vinyle.</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}

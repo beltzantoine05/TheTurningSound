@@ -1,11 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Vinyl{% endblock %}
+{% block title %}Nouveau vinyle{% endblock %}
+
+{% block header_title %}Nouveau vinyle{% endblock %}
+{% block header_subtitle %}Dans {{ vinyl.library.name }}{% endblock %}
 
 {% block body %}
-    <h1>Create new Vinyl</h1>
+    <div class="mb-5">
+        {{ include('vinyl/_form.html.twig', {'button_label': 'Ajouter le vinyle'}) }}
+    </div>
 
-    {{ include('vinyl/_form.html.twig') }}
-
-    <a href="{{ path('library_show' ,{'id': vinyl.library.id}) }}">Retour à la librarie</a>
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-dark" href="{{ path('library_show', {'id': vinyl.library.id}) }}">Retour à la bibliothèque</a>
+    </div>
 {% endblock %}

@@ -1,13 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Vinyl{% endblock %}
+{% block title %}Modifier {{ vinyl.title }}{% endblock %}
+
+{% block header_title %}Modifier le vinyle{% endblock %}
+{% block header_subtitle %}{{ vinyl.title }} · {{ vinyl.artist ?? 'Artiste inconnu' }}{% endblock %}
 
 {% block body %}
-    <h1>Edit Vinyl</h1>
+    <div class="mb-5">
+        {{ include('vinyl/_form.html.twig') }}
+    </div>
 
-    {{ include('vinyl/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('library_show' ,{'id': vinyl.library.id}) }}">Retour à la librarie</a>
-
-    {{ include('vinyl/_delete_form.html.twig') }}
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-dark" href="{{ path('app_vinyl_show', {'id': vinyl.id}) }}">Retour au vinyle</a>
+        {{ include('vinyl/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

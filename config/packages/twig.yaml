@@ -1,5 +1,7 @@
 twig:
     file_name_pattern: '*.twig'
+    # Tous les formulaires utilisent le style Bootstrap 5
+    form_themes: ['bootstrap_5_layout.html.twig']
 
 when@test:
     twig:

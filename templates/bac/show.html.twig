@@ -11,15 +11,33 @@
         <tbody>
             <tr>
                 <th scope="row">Propriétaire</th>
-                <td>{{ bac.owner.username }}</td>
+                <td>
+                    {% if app.user %}
+                        <a href="{{ path('member_show', {'username': bac.owner.username}) }}">{{ bac.owner.username }}</a>
+                    {% else %}
+                        {{ bac.owner.username }}
+                    {% endif %}
+                </td>
             </tr>
             <tr>
-                <th scope="row">Librairie</th>
-                <td><a href="{{ path('library_show', {'id': bac.owner.library.id}) }}">{{ bac.owner.library.name }}</a></td>
+                <th scope="row">Bibliothèque</th>
+                <td>
+                    {% if app.user %}
+                        <a href="{{ path('library_show', {'id': bac.owner.library.id}) }}">{{ bac.owner.library.name }}</a>
+                    {% else %}
+                        {{ bac.owner.library.name }}
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <th scope="row">Visibilité</th>
-                <td>{{ bac.public ? 'Public' : 'Privé' }}</td>
+                <td>
+                    {% if bac.public %}
+                        <span class="badge bg-success">Public</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Privé</span>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <th scope="row">Description</th>
@@ -59,7 +77,10 @@
 
     <div class="d-flex gap-2">
         <a class="btn btn-outline-dark" href="{{ path('app_bac_index') }}">Retour à la liste</a>
-        <a class="btn btn-dark" href="{{ path('app_bac_edit', {'id': bac.id}) }}">Modifier</a>
-        {{ include('bac/_delete_form.html.twig') }}
+        {# Actions réservées au propriétaire du bac ou à un administrateur #}
+        {% if is_granted('ROLE_ADMIN') or (app.user and app.user is same as(bac.owner)) %}
+            <a class="btn btn-dark" href="{{ path('app_bac_edit', {'id': bac.id}) }}">Modifier</a>
+            {{ include('bac/_delete_form.html.twig') }}
+        {% endif %}
     </div>
 {% endblock %}
